@@ -1,73 +1,71 @@
-# Face Recognition Attendance System
+# ![Face Recognition Attendance](https://img.shields.io/badge/Face-Recognition-blue) Face Recognition Attendance System
 
-> Real-Time Face Recognition · Attendance Management · Flask Web Interface
-> *Built with Python, OpenCV, face_recognition, and MySQL*
+> Real-Time Attendance Management using Face Recognition
+> *Python · Flask · OpenCV · face_recognition · MySQL*
+
+[![Python Version](https://img.shields.io/badge/python-3.11-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 ---
 
 ## Table of Contents
 
 * [Overview](#overview)
-* [Problem Statement](#problem-statement)
-* [Hardware & Software Setup](#hardware--software-setup)
-* [Project Structure](#project-structure)
-* [Installation & Setup](#installation--setup)
-* [Running the Application](#running-the-application)
+* [Features](#features)
+* [Demo](#demo)
+* [Tech Stack](#tech-stack)
+* [Installation](#installation)
+* [Usage](#usage)
 * [Database Setup](#database-setup)
-* [Attendance Storage](#attendance-storage)
-* [Observations](#observations)
-* [Team Members](#team-members)
+* [Folder Structure](#folder-structure)
+* [Contributing](#contributing)
+* [Team](#team)
 * [License](#license)
 
 ---
 
 ## Overview
 
-This project implements a **real-time attendance system** using face recognition. Students’ faces are detected via webcam, recognized against known face encodings, and attendance is recorded automatically in a **MySQL database**. The system also saves **daily attendance Excel files** for record-keeping.
+This project implements a **real-time attendance system** that uses a webcam to detect and recognize faces of students. Attendance is **automatically recorded** in a MySQL database and saved as daily Excel sheets.
+
+* Detects faces using `face_recognition` and `OpenCV`.
+* Compares against stored encodings (`encodings.pkl`) for recognition.
+* Web-based interface using **Flask**.
+* Attendance records saved in both **database** and **Excel files**.
 
 ---
 
-## Problem Statement
+## Features
 
-> Build a real-time system to recognize students from webcam video,
-> mark attendance automatically, and store records both in a database and Excel files.
-
----
-
-## Hardware & Software Setup
-
-| Component      | Details                                                                     |
-| -------------- | --------------------------------------------------------------------------- |
-| CPU            | Intel® Core™ i5 or higher                                                   |
-| GPU (optional) | Any GPU supported by OpenCV/face_recognition                                |
-| OS             | Windows 10/11, Linux, or macOS                                              |
-| Python         | 3.11.x                                                                      |
-| Frameworks     | Flask · OpenCV · face_recognition · numpy · pandas · mysql-connector-python |
-| Database       | MySQL                                                                       |
-| Input          | Webcam (or recorded video)                                                  |
+* Real-time face detection and recognition.
+* Automatic attendance logging.
+* Daily Excel reports for attendance.
+* Web interface to view and save attendance.
+* Configurable for multiple users and classes.
 
 ---
 
-## Project Structure
+## Demo
 
-```
-face-recog-main/
-├── app.py                   # Main Flask app
-├── test.py                  # Test scripts for modules
-├── encode_faces.py          # Script to generate face encodings
-├── encodings.pkl            # Pickle file with known face encodings
-├── attendance_records/      # Folder to store daily attendance Excel files
-├── templates/               # HTML templates for Flask
-│   └── index.html
-├── static/                  # CSS/JS if any
-├── requirements.txt         # Python dependencies
-├── venv_face/               # Virtual environment (exclude from Git)
-└── README.md
-```
+![Demo Screenshot](https://user-images.githubusercontent.com/yourusername/demo-screenshot.png)
+*Web interface showing recognized students and live webcam feed.*
 
 ---
 
-## Installation & Setup
+## Tech Stack
+
+| Component            | Details                    |
+| -------------------- | -------------------------- |
+| **Language**         | Python 3.11                |
+| **Web Framework**    | Flask                      |
+| **Face Recognition** | face_recognition, OpenCV   |
+| **Data Handling**    | pandas, pickle             |
+| **Database**         | MySQL                      |
+| **Frontend**         | HTML/CSS (Flask templates) |
+
+---
+
+## Installation
 
 1. **Clone the repository**
 
@@ -76,62 +74,57 @@ git clone https://github.com/yourusername/attendance-system-face-recog.git
 cd attendance-system-face-recog
 ```
 
-2. **Create a virtual environment**
+2. **Create and activate virtual environment**
 
 ```bash
 python -m venv venv_face
-```
-
-3. **Activate the virtual environment**
-
-* Windows (PowerShell):
-
-```powershell
+# Windows PowerShell
 .\venv_face\Scripts\Activate.ps1
-```
-
-* Windows (CMD):
-
-```cmd
+# Windows CMD
 .\venv_face\Scripts\activate
+# Linux / macOS
+source venv_face/bin/activate
 ```
 
-* Linux/macOS:
+3. **Upgrade pip**
 
 ```bash
-source venv_face/bin/activate
+pip install --upgrade pip
 ```
 
 4. **Install dependencies**
 
 ```bash
-pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-> ⚠️ Use **NumPy < 2.0** to avoid compatibility issues with OpenCV and face_recognition:
-
-```bash
-pip install numpy==1.26.0
-```
-
-5. **Install face_recognition_models**:
+5. **Install face_recognition_models**
 
 ```bash
 pip install git+https://github.com/ageitgey/face_recognition_models
 ```
 
+> ⚠️ Use **NumPy < 2.0** to avoid compatibility issues:
+> `pip install numpy==1.26.0`
+
 ---
 
-## Running the Application
+## Usage
+
+1. Run the Flask app:
 
 ```bash
 python app.py
 ```
 
-* Open browser at `http://127.0.0.1:5000/`
-* Webcam feed shows live video with recognized faces
-* Attendance can be saved via the web interface with a popup confirmation
+2. Open browser:
+
+```
+http://127.0.0.1:5000/
+```
+
+3. View live webcam feed and recognized students.
+4. Click **Save Attendance** to log daily attendance.
 
 ---
 
@@ -162,31 +155,43 @@ CREATE TABLE attendance (
 
 ---
 
-## Attendance Storage
+## Folder Structure
 
-* Recognized students are logged into **MySQL database**.
-* Daily attendance is saved in `attendance_records/attendance_YYYY-MM-DD.xlsx`.
-* Duplicate entries are automatically removed per day.
+```
+face-recog-main/
+├── app.py                   # Flask app
+├── encode_faces.py          # Generate face encodings
+├── encodings.pkl            # Known face encodings
+├── attendance_records/      # Daily attendance Excel files
+├── templates/               # HTML templates
+│   └── index.html
+├── static/                  # CSS/JS assets
+├── requirements.txt         # Dependencies
+├── venv_face/               # Virtual environment (ignore in Git)
+└── README.md
+```
+
+> 💡 Add `venv_face/` and large models to `.gitignore` to avoid pushing large files to GitHub.
 
 ---
 
-## Observations
+## Contributing
 
-* Real-time recognition works reliably with small-to-medium class sizes.
-* For large classes, GPU acceleration (if available) can improve speed.
-* `encodings.pkl` must be updated whenever new students are added.
-* Web interface allows quick attendance marking and immediate feedback.
+1. Fork the repository.
+2. Create a feature branch: `git checkout -b feature-name`
+3. Commit your changes: `git commit -m "Add feature"`
+4. Push to branch: `git push origin feature-name`
+5. Open a Pull Request.
 
 ---
 
-## Team Members
+## Team
 
-* [*Alekhya Madiraju*](https://github.com/alekhya5886)
+* [**Alekhya Madiraju**](https://github.com/alekhya5886)
   CSE - AIML, GITAM University
   [amadiraj2@gitam.in](mailto:amadiraj2@gitam.in)
 
-* [*Your teammate*]
-  (Add additional team members here if any)
+* [*Add other members here if any*]
 
 ---
 
@@ -194,4 +199,3 @@ CREATE TABLE attendance (
 
 This project is licensed under the [MIT License](LICENSE).
 Feel free to use, modify, and distribute with attribution.
-
