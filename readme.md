@@ -47,7 +47,8 @@ This project implements a **real-time attendance system** that uses a webcam to 
 
 ## Demo
 
-![Demo Screenshot](https://user-images.githubusercontent.com/yourusername/demo-screenshot.png)
+![<img width="1088" height="674" alt="image" src="https://github.com/user-attachments/assets/cb889c3a-5b92-4499-be1d-b641cc864bf1" />
+](https://user-images.githubusercontent.com/yourusername/demo-screenshot.png)
 *Web interface showing recognized students and live webcam feed.*
 
 ---
@@ -191,12 +192,11 @@ face-recog-main/
   CSE - AIML, GITAM University
   [amadiraj2@gitam.in](mailto:amadiraj2@gitam.in)
 
-* [*Add other members here if any*]
-
 ---
 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
 Feel free to use, modify, and distribute with attribution.
+
 
