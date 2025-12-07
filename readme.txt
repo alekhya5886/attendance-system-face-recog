@@ -1,30 +1,73 @@
-
 # Face Recognition Attendance System
 
-A Python-based **attendance management system** that uses **face recognition** to detect and record student attendance. Built with **Flask**, **OpenCV**, **face_recognition**, and **MySQL**.
+> Real-Time Face Recognition · Attendance Management · Flask Web Interface
+> *Built with Python, OpenCV, face_recognition, and MySQL*
 
 ---
 
-## **Features**
+## Table of Contents
 
-* Real-time face recognition using webcam
-* Automatic attendance recording in **MySQL database**
-* Daily attendance saved as **Excel files**
-* Web interface to view students and mark attendance
-* Basic popup notification when attendance is saved
-
----
-
-## **Prerequisites**
-
-* Python 3.11.x
-* Git
-* MySQL Server
-* Visual Studio Build Tools (for compiling dlib if needed)
+* [Overview](#overview)
+* [Problem Statement](#problem-statement)
+* [Hardware & Software Setup](#hardware--software-setup)
+* [Project Structure](#project-structure)
+* [Installation & Setup](#installation--setup)
+* [Running the Application](#running-the-application)
+* [Database Setup](#database-setup)
+* [Attendance Storage](#attendance-storage)
+* [Observations](#observations)
+* [Team Members](#team-members)
+* [License](#license)
 
 ---
 
-## **Project Setup**
+## Overview
+
+This project implements a **real-time attendance system** using face recognition. Students’ faces are detected via webcam, recognized against known face encodings, and attendance is recorded automatically in a **MySQL database**. The system also saves **daily attendance Excel files** for record-keeping.
+
+---
+
+## Problem Statement
+
+> Build a real-time system to recognize students from webcam video,
+> mark attendance automatically, and store records both in a database and Excel files.
+
+---
+
+## Hardware & Software Setup
+
+| Component      | Details                                                                     |
+| -------------- | --------------------------------------------------------------------------- |
+| CPU            | Intel® Core™ i5 or higher                                                   |
+| GPU (optional) | Any GPU supported by OpenCV/face_recognition                                |
+| OS             | Windows 10/11, Linux, or macOS                                              |
+| Python         | 3.11.x                                                                      |
+| Frameworks     | Flask · OpenCV · face_recognition · numpy · pandas · mysql-connector-python |
+| Database       | MySQL                                                                       |
+| Input          | Webcam (or recorded video)                                                  |
+
+---
+
+## Project Structure
+
+```
+face-recog-main/
+├── app.py                   # Main Flask app
+├── test.py                  # Test scripts for modules
+├── encode_faces.py          # Script to generate face encodings
+├── encodings.pkl            # Pickle file with known face encodings
+├── attendance_records/      # Folder to store daily attendance Excel files
+├── templates/               # HTML templates for Flask
+│   └── index.html
+├── static/                  # CSS/JS if any
+├── requirements.txt         # Python dependencies
+├── venv_face/               # Virtual environment (exclude from Git)
+└── README.md
+```
+
+---
+
+## Installation & Setup
 
 1. **Clone the repository**
 
@@ -41,19 +84,19 @@ python -m venv venv_face
 
 3. **Activate the virtual environment**
 
-* **Windows (PowerShell)**:
+* Windows (PowerShell):
 
 ```powershell
 .\venv_face\Scripts\Activate.ps1
 ```
 
-* **Windows (CMD)**:
+* Windows (CMD):
 
 ```cmd
 .\venv_face\Scripts\activate
 ```
 
-* **Linux/macOS**:
+* Linux/macOS:
 
 ```bash
 source venv_face/bin/activate
@@ -66,20 +109,42 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-> ⚠️ **Important:** Do **not** commit `venv_face` to GitHub. Use `.gitignore` to exclude it.
+> ⚠️ Use **NumPy < 2.0** to avoid compatibility issues with OpenCV and face_recognition:
+
+```bash
+pip install numpy==1.26.0
+```
+
+5. **Install face_recognition_models**:
+
+```bash
+pip install git+https://github.com/ageitgey/face_recognition_models
+```
 
 ---
 
-## **Database Setup**
+## Running the Application
+
+```bash
+python app.py
+```
+
+* Open browser at `http://127.0.0.1:5000/`
+* Webcam feed shows live video with recognized faces
+* Attendance can be saved via the web interface with a popup confirmation
+
+---
+
+## Database Setup
 
 1. Start MySQL server.
-2. Create a database:
+2. Create database:
 
 ```sql
 CREATE DATABASE attendance_db;
 ```
 
-3. Create `students` and `attendance` tables:
+3. Create tables:
 
 ```sql
 CREATE TABLE students (
@@ -97,86 +162,36 @@ CREATE TABLE attendance (
 
 ---
 
-## **Face Encodings**
+## Attendance Storage
 
-1. Add student images to generate encodings.
-2. Run your encoding script (e.g., `encode_faces.py`) to create `encodings.pkl`.
-3. Ensure `encodings.pkl` is in the project root.
-
----
-
-## **Running the App**
-
-```bash
-python app.py
-```
-
-* Open a browser at `http://127.0.0.1:5000/`
-* You should see the student list and webcam feed
-* Recognized faces will be highlighted
-* Save attendance using the form, and a **popup** confirms success
+* Recognized students are logged into **MySQL database**.
+* Daily attendance is saved in `attendance_records/attendance_YYYY-MM-DD.xlsx`.
+* Duplicate entries are automatically removed per day.
 
 ---
 
-## **Notes for Large Files**
+## Observations
 
-* Do **not** commit your virtual environment (`venv_face`) or large binary files.
-* `shape_predictor_68_face_landmarks.dat` (~95 MB) is required by `face_recognition_models`.
-  Options:
-
-  1. Use **Git LFS** to store large files.
-  2. Download it dynamically in your code instead of pushing to GitHub.
-
-Example `.gitignore` snippet:
-
-```
-venv_face/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.xlsx
-*.dat
-```
+* Real-time recognition works reliably with small-to-medium class sizes.
+* For large classes, GPU acceleration (if available) can improve speed.
+* `encodings.pkl` must be updated whenever new students are added.
+* Web interface allows quick attendance marking and immediate feedback.
 
 ---
 
-## **Dependencies**
+## Team Members
 
-* Flask==2.3.2
-* OpenCV==4.8.1.78
-* face_recognition==1.3.0
-* face_recognition_models (install via Git)
-* numpy>=1.25.0, <2.0 (to avoid incompatibility)
-* pandas>=2.1.1
-* mysql-connector-python>=9.5.0
-* Pillow
+* [*Alekhya Madiraju*](https://github.com/alekhya5886)
+  CSE - AIML, GITAM University
+  [amadiraj2@gitam.in](mailto:amadiraj2@gitam.in)
+
+* [*Your teammate*]
+  (Add additional team members here if any)
 
 ---
 
-## **Tips / Troubleshooting**
+## License
 
-1. **dlib build errors** (on Windows):
+This project is licensed under the [MIT License](LICENSE).
+Feel free to use, modify, and distribute with attribution.
 
-   * Install Visual Studio Build Tools (C++ Desktop workload)
-   * Or use precompiled wheel for Python 3.11
-
-2. **NumPy 2.x errors:**
-
-   * Use NumPy `<2` to avoid crashes with OpenCV/face_recognition:
-
-   ```bash
-   pip install numpy==1.26.0
-   ```
-
-3. **Face Recognition Models not found**:
-
-```bash
-pip install git+https://github.com/ageitgey/face_recognition_models
-```
-
----
-
-## **License**
-
-MIT License
