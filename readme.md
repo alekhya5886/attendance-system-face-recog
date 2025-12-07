@@ -47,8 +47,7 @@ This project implements a **real-time attendance system** that uses a webcam to 
 
 ## Demo
 
-![<img width="1088" height="674" alt="image" src="https://github.com/user-attachments/assets/cb889c3a-5b92-4499-be1d-b641cc864bf1" />
-](https://user-images.githubusercontent.com/yourusername/demo-screenshot.png)
+![image](https://drive.google.com/file/d/1NltDMIy05BXQFLQcMziZ6KMiB2FB_sjL/view?usp=sharing)
 *Web interface showing recognized students and live webcam feed.*
 
 ---
