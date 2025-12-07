@@ -46,8 +46,7 @@ This project implements a **real-time attendance system** that uses a webcam to 
 ---
 
 ## Demo
-
-![image](https://drive.google.com/file/d/1NltDMIy05BXQFLQcMziZ6KMiB2FB_sjL/view?usp=sharing)
+https://drive.google.com/file/d/1NltDMIy05BXQFLQcMziZ6KMiB2FB_sjL/view?usp=sharing
 *Web interface showing recognized students and live webcam feed.*
 
 ---
@@ -197,5 +196,6 @@ face-recog-main/
 
 This project is licensed under the [MIT License](LICENSE).
 Feel free to use, modify, and distribute with attribution.
+
 
 
