@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0; /* Remove default margin */
+            padding: 0;
+            display: flex;
+            flex-direction: column; /* Flex column layout for body */
+            /*  min-height: 100vh;  Full viewport height */
+        }
+
+        .site-heading {
+            background-color: #22754e;
+            color: white;
+            text-align: center;
+        }
+
+        .content-container {
+            display: flex;
+            flex: 1; /* Fill remaining vertical space */
+        }
+
+        .sidebar {
+            width: 20%; /* Sidebar width */
+            background-color: #f8f9fa; /* Light gray background for sidebar */
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto; /* Allow sidebar to scroll if needed */
+        }
+
+        .main-content {
+            width: 80%; /* Main content width */
+            padding: 5px;
+            box-sizing: border-box;
+            overflow: hidden; /* Hide any overflow content */
+            position: relative; /* Ensure positioning context */
+        }
+
+        .main-content h3 {
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        #videoFeedContainer {
+            width: 95%; /* Full width of container */
+            height: 420px; /* Fixed height for the live feed */
+            border-radius: 20px; /* Rounded corners for video feed */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+            overflow: hidden; /* Hide any overflow content */
+        }
+
+        #videoFeed {
+            width: 100%; /* Full width of container */
+            height: 100%; /* Full height of container */
+            object-fit: cover; /* Maintain aspect ratio and cover the container */
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        label {
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        input[type="checkbox"] {
+            /* Ensure checkboxes are visible */
+            margin-right: 5px; /* Adjust spacing between checkbox and text */
+            vertical-align: middle;
+        }
+
+        .ticked {
+            /* Background color for ticked state */
+            background-color: #dff0d8;
+            padding: 5px;
+            border-radius: 3px;
+        }
+
+        button[type="submit"] {
+            background-color: #22754e;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            margin-top: 5px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #22754e;
+        }
+    </style>
+    <script>
+        function markAttendance(name) {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                if (checkbox.nextElementSibling.textContent.trim() === name) {
+                    checkbox.checked = true;
+                    // Optionally add a class or style for visual indication of ticked state
+                    checkbox.parentElement.classList.add('ticked');
+                }
+            });
+        }
+
+        async function fetchRecognizedStudents() {
+            try {
+                const response = await fetch('/recognized_students');
+                const data = await response.json();
+                const recognizedStudents = data.recognized_students;
+                recognizedStudents.forEach(name => markAttendance(name));
+            } catch (error) {
+                console.error('Error fetching recognized students:', error);
+            }
+        }
+
+        setInterval(fetchRecognizedStudents, 3000);
+    </script>
+</head>
+<body>
+    <div class="site-heading">
+        <h2>Attendance System</h2>
+    </div>
+    <div class="content-container">
+        <div class="sidebar">
+            <h3>Mark Attendance</h3>
+            <form action="{{ url_for('save_attendance') }}" method="post">
+                <ul id="studentList">
+                    {% for student in students %}
+                        <li>
+                            <label>
+                                <input type="checkbox" name="students" value="{{ student[0] }}" id="checkbox-{{ student[0] }}">
+                                <span>{{ student[1] }}</span>
+                            </label>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <div class="main-content">
+            <div id="videoFeedContainer">
+                <img src="{{ url_for('video_feed') }}" id="videoFeed" alt="Live Feed">
+            </div>
+        </div>
+    </div>
+    <script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const saved = urlParams.get('saved');
+
+  if (saved === 'true') {
+    alert("Attendance saved successfully!");
+  } else if (saved === 'false') {
+    alert("Error saving attendance.");
+  }
+</script>
+
+</body>
+</html>
